@@ -1,99 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCity, FaFlag, FaLocationArrow, FaMapPin } from 'react-icons/fa';
+import { Circles } from 'react-loader-spinner';
+import ChangePassword from './ChangePassword'; // Import the ChangePassword component
 
-const Profile = () => {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-    imgSrc: "https://fdopportunities.com/wp-content/uploads/2019/12/fdo-bsherman-480x480.jpg"
-  });
+function Profile() {
+  const [userData, setUserData] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [showChangePassword, setShowChangePassword] = useState(false); // State to manage change password form visibility
+  const token = localStorage.getItem('token');
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(user);
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('https://ecommerce-platform-kfby.onrender.com/UserData', {
+          headers: {
+            auth: token 
+          }
+        });
+        setUserData(response.data.data); 
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false); 
+        }, 1000); 
+      }
+    };
 
-  const handleSave = () => {
-    setUser(formData);
-    setIsEditing(false);
-  };
+    fetchUserData();
+  }, [token]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
-      <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-md mx-auto">
-        <div className="flex flex-col items-center p-6">
-          <img
-            src={user.imgSrc}
-            alt={user.name}
-            className="w-32 h-32 object-cover rounded-full border-4 border-gray-200"
+    <div className="container w-2/4 mx-auto mt-20 px-6 py-10">
+      <h2 className="text-3xl font-bold mb-4 text-center">User Profile</h2>
+      {loading ? (
+        <div className='flex justify-center items-center h-64'>
+          <Circles
+            height="80"
+            width="80"
+            color="#FDE047"
+            ariaLabel="circles-loading"
+            visible={true}
           />
-          <div className="text-center mt-4">
-            <h2 className="text-2xl font-semibold" style={{ fontFamily: 'Poppins' }}>{user.name}</h2>
-            <p className="text-gray-600" style={{ fontFamily: 'Poppins' }}>{user.email}</p>
-            <p className="text-gray-600 mt-2" style={{ fontFamily: 'Poppins' }}>{user.bio}</p>
-          </div>
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-gray-800 text-white py-2 px-4 rounded mt-4 transition duration-300 ease-in-out"
-          >
-           <i class="ri-pencil-line"></i> Edit Profile
-          </button>
         </div>
-        
-        {isEditing && (
-          <div className="px-6 pb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      ) : (
+        userData ? (
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="p-6 flex flex-col items-center">
+              <img
+                src={`https://ecommerce-platform-kfby.onrender.com/images/${userData.profileImage}`}
+                alt="Profile"
+                className="rounded-full h-32 w-32 lg:h-48 lg:w-48 object-cover mb-6"
+                style={{ objectPosition: 'center' }}
               />
+              <div className="w-full lg:w-3/4">
+                <h3 className="text-2xl font-semibold mb-4 text-center">Personal Data</h3>
+                <hr />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 pt-4">
+                  <div className="flex items-start">
+                    <FaUser className="text-gray-600 mt-2 mr-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Name</h4>
+                      <p className="text-gray-600">{userData.name}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaEnvelope className="text-gray-600 mt-2 mr-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Email</h4>
+                      <p className="text-gray-600">{userData.email}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaPhone className="text-gray-600 mt-2 mr-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Mobile Number</h4>
+                      <p className="text-gray-600">{userData.mobileNumber}</p>
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-2xl font-semibold mb-4 text-center"> Address</h3>
+                <hr />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+                  <div className="flex items-start">
+                    <FaMapMarkerAlt className="text-gray-600 mr-2 mt-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Street</h4>
+                      <p className="text-gray-600">{userData.addresses[0].street}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaCity className="text-gray-600 mr-2 mt-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">City</h4>
+                      <p className="text-gray-600">{userData.addresses[0].city}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaLocationArrow className="text-gray-600 mr-2 mt-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">State</h4>
+                      <p className="text-gray-600">{userData.addresses[0].state}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaMapPin className="text-gray-600 mr-2 mt-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Pin Code</h4>
+                      <p className="text-gray-600">{userData.addresses[0].pinCode}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <FaFlag className="text-gray-600 mr-2 mt-2" />
+                    <div>
+                      <h4 className="text-lg font-semibold">Country</h4>
+                      <p className="text-gray-600">{userData.addresses[0].country}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center mt-6">
+                  <button
+                    onClick={() => setShowChangePassword(!showChangePassword)}
+                    className="bg-indigo-600 text-white px-4 py-2 rounded-md"
+                  >
+                    Change Password
+                  </button>
+                </div>
+                {showChangePassword && <ChangePassword />} 
+              </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="bio">Bio</label>
-              <textarea
-                name="bio"
-                value={formData.bio}
-                onChange={handleInputChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                rows="3"
-              ></textarea>
-            </div>
-            <button
-              onClick={handleSave}
-              className="bg-green-500 text-white py-2 px-4 rounded mr-2 transition duration-300 ease-in-out"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="bg-red-500 text-white py-2 px-4 rounded transition duration-300 ease-in-out"
-            >
-              Cancel
-            </button>
           </div>
-        )}
-      </div>
+        ) : (
+          <p className="text-center text-gray-600">No user data available</p>
+        )
+      )}
     </div>
   );
-};
+}
 
 export default Profile;

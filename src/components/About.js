@@ -4,7 +4,7 @@ function AboutUs() {
   return (
     <div className="py-12 bg-gray-100">
       <div className="container mx-auto px-6 lg:px-20">
-        <h2 className="text-4xl font-bold text-center mt-20 py-10 text-gray-800" style={{ fontFamily: 'Poppins' }}>About Us</h2>
+        <h2 className="text-4xl font-bold text-center mt-10 py-10 text-gray-800" style={{ fontFamily: 'Poppins' }}>About Us</h2>
         
         <div className="bg-white shadow-lg rounded-lg p-6 mb-10">
           <h3 className="text-3xl font-semibold mb-6 text-gray-800 text-center" style={{ fontFamily: 'Poppins' }}>Meet Our Founder</h3>

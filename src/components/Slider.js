@@ -8,11 +8,11 @@ const slides = [
   },
   {
     id: 2,
-    image: "https://img.freepik.com/free-photo/excited-girl-scream-joy-making-fist-pump-holding-shopping-bag-rejoicing-standing-dress-ove_1258-121722.jpg?t=st=1718278209~exp=1718281809~hmac=436565cabc0f5bd76392b0aa0d4ce9035fd1199e001fab8cc05ae5ab4db1b4b0&w=1380"
+    image: "https://t3.ftcdn.net/jpg/02/71/77/56/360_F_271775672_yo8ZgraN2IHGbfqP2k0PsLjwvmatUNUJ.jpg"
   },
   {
     id: 3,
-    image: "https://img.freepik.com/free-photo/happy-easter-easter-painted-eggs-basket-wooden-rustic-table-your-decoration-holiday_74952-2955.jpg?t=st=1718278277~exp=1718281877~hmac=24b110d7f288ff9c99e32bce6fa434a5b33e34e57477baa8feedaa9145c120b2&w=996"
+    image: "https://t4.ftcdn.net/jpg/03/38/08/77/360_F_338087735_TA0hy2AlQajKsb0xphYh5ebhVxdxoi77.jpg"
   }
 ];
 

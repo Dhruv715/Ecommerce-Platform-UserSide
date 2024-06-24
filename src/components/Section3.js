@@ -1,83 +1,68 @@
-// src/Products.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import 'remixicon/fonts/remixicon.css'; // Import RemixIcon CSS for icons
 
-const products = [
-  {
-    imgSrc: "https://img.fruugo.com/product/9/79/569745799_0340_0340.jpg",
-    name: "Wireless Headphones",
-    price: "$199.99",
-  },
-  {
-    imgSrc: "https://m.media-amazon.com/images/I/71NZnTJMqKL.jpg",
-    name: "Classic Watch",
-    price: "$249.99",
-  },
-  {
-    imgSrc: "https://image.made-in-china.com/202f0j00bczklprKnsqV/Second-Hand-Note-11t-PRO-5g-HD-Camera-Smartphone.webp",
-    name: "Smartphone",
-    price: "$699.99",
-  },
-  {
-    imgSrc: "https://cdn.crn.in/wp-content/uploads/2019/11/13101532/Asus-Laptop.jpg",
-    name: "Gaming Laptop",
-    price: "$1299.99",
-  },
-  {
-    imgSrc: "https://rukminim2.flixcart.com/image/850/1000/shoe/u/n/w/black-grey-run-o-run-balls-9-original-imadz54xvjqjvh4g.jpeg?q=20&crop=false",
-    name: "Running Shoes",
-    price: "$99.99",
-  },
-  {
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbJfUN6WuKAcgtl5_VzL4Xv2kAXbKvn3oTvw&s",
-    name: "Leather Jacket",
-    price: "$149.99",
-  },
-  {
-    imgSrc: "https://5.imimg.com/data5/QH/YQ/MY-66014446/opta-sb-050-hrxx-band-hd-color-display-bluetooth-fitness-smartwatch-all-in-one-activity-tracker.jpg",
-    name: "Fitness Tracker",
-    price: "$79.99",
-  },
-  {
-    imgSrc: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1697016359/Croma%20Assets/Entertainment/Wireless%20Earbuds/Images/300117_0_rlzacv.png",
-    name: "Wireless Earbuds",
-    price: "$49.99",
-  },
-  {
-    imgSrc: "https://rukminim2.flixcart.com/image/850/1000/shoe/u/n/w/black-grey-run-o-run-balls-9-original-imadz54xvjqjvh4g.jpeg?q=20&crop=false",
-    name: "Running Shoes",
-    price: "$99.99",
-  },
-  {
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbJfUN6WuKAcgtl5_VzL4Xv2kAXbKvn3oTvw&s",
-    name: "Leather Jacket",
-    price: "$149.99",
-  },
-  {
-    imgSrc: "https://5.imimg.com/data5/QH/YQ/MY-66014446/opta-sb-050-hrxx-band-hd-color-display-bluetooth-fitness-smartwatch-all-in-one-activity-tracker.jpg",
-    name: "Fitness Tracker",
-    price: "$79.99",
-  },
-   {
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbJfUN6WuKAcgtl5_VzL4Xv2kAXbKvn3oTvw&s",
-    name: "Leather Jacket",
-    price: "$149.99",
-  }
-];
-
 function Section3() {
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('https://ecommerce-platform-kfby.onrender.com/AllProducts');
+        const allProducts = response.data.data; // Assuming the response data is an array of products
+        // Shuffle products array
+        const shuffledProducts = shuffleArray(allProducts);
+        // Take the first 4 products after shuffling
+        setProducts(shuffledProducts.slice(0, 4));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const shuffleArray = (array) => {
+    // Fisher-Yates shuffle algorithm
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  const handleProductClick = (productId) => {
+    navigate(`/products/${productId}`);
+  };
+
   return (
     <div className='py-10 bg-gray-100'>
       <div className='container mx-auto px-6'>
         <h2 className='text-3xl font-bold text-center mb-8' style={{ fontFamily: 'Poppins' }}>Our Products</h2>
         <div className='flex flex-wrap justify-center'>
           {products.map((product, index) => (
-            <div key={index} className='w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4'>
-              <div className='bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-xl'>
-                <img src={product.imgSrc} alt={product.name} className='w-full h-64 object-contain p-4' />
-                <div className='p-6'>
-                  <h3 className='text-xl font-semibold mb-2' style={{ fontFamily: 'Poppins' }}>{product.name}</h3>
-                  <p className='text-gray-600 mb-4' style={{ fontFamily: 'Poppins' }}>{product.price}</p>
+            <div
+              key={index}
+              className='w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4 cursor-pointer'
+              onClick={() => handleProductClick(product._id)} // Assuming products have a unique _id
+            >
+              <div className='bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-xl h-full flex flex-col'>
+                <img src={`https://ecommerce-platform-kfby.onrender.com/images/${product.image[0]}`} alt={product.name} className='w-full h-64 object-contain p-4' />
+                <div className='p-6 flex-grow'>
+                  <h3 className='text-xl font-semibold mb-2' style={{ fontFamily: 'Poppins', height: '3rem', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                    {product.name.length > 50 ? `${product.name.substring(0, 50)}...` : product.name}
+                  </h3>
+                  <div className='flex items-center mb-4'>
+                    <span className='text-gray-600 mr-2 py-1 flex items-start' style={{ fontFamily: 'Poppins' }}>
+                      <h6 className='text-lg'>₹</h6>
+                      <h1 className='text-2xl'>{product.price}</h1>
+                    </span>
+                    <span className='line-through text-red-500' style={{ fontFamily: 'Poppins' }}>{product.price + 500}</span>
+                  </div>
+                </div>
+                <div className='px-6 pb-6'>
                   <button className='bg-yellow-400 text-black py-2 px-4 rounded-full transition duration-300 ease-in-out hover:bg-yellow-500' style={{ fontFamily: 'Poppins' }}>
                     Add to Cart <i className="ri-arrow-right-line"></i>
                   </button>
