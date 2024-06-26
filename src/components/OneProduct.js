@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import 'remixicon/fonts/remixicon.css';
 import Modal from './Model';
+import { Circles } from 'react-loader-spinner'; // Import spinner component
 
 function truncateName(name) {
   return name.length > 50 ? `${name.substring(0, 50)}...` : name;
@@ -16,6 +17,8 @@ function OneProduct() {
   const [quantity, setQuantity] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [loading, setLoading] = useState(true); // State for loading spinner
+  const [fadeIn, setFadeIn] = useState(false); // State for fade-in effect
 
   const token = localStorage.getItem('token');
 
@@ -27,6 +30,11 @@ function OneProduct() {
         setSelectedImage(response.data.data.image[0]); // Set the first image as the default selected image
       } catch (error) {
         console.error('Error fetching product:', error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+          setFadeIn(true);
+        }, 500); // Show spinner for at least 1 second
       }
     };
 
@@ -71,12 +79,22 @@ function OneProduct() {
     }
   };
 
-  if (!product) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <Circles
+          height="80"
+          width="80"
+          color="#FDE047"
+          ariaLabel="circles-loading"
+          visible={true}
+        />
+      </div>
+    );
   }
 
   return (
-    <div className='py-10 mt-20 bg-gray-100'>
+    <div className={`py-10 mt-20 bg-gray-100 transition-opacity duration-1000 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
       <div className='container mx-auto px-6'>
         <button onClick={() => navigate('/')} className='mb-4 bg-gray-900 text-white py-2 px-4 rounded'>
           <i className="ri-arrow-left-line"></i> Back to Products
