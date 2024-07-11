@@ -1,19 +1,22 @@
 // src/Slider.js
 import React, { useState, useEffect } from 'react';
+import img1 from '../data/banner7.jpg';
+import img2 from '../data/banner4.jpg';
+import img3 from '../data/banner3.jpg';
 
 const slides = [
   {
     id: 1,
-    image: "https://img.freepik.com/free-photo/happy-smiling-fashionable-woman-carrying-shopping-bags-looking-shopping-promotion-summer-sale_74952-3348.jpg?w=1380&t=st=1718278061~exp=1718278661~hmac=9c6ff1ef52e31c823d65cb68017f6208be8867bae11bdadb9f6319b3b77a6454"
+    image: img1,
   },
   {
     id: 2,
-    image: "https://t3.ftcdn.net/jpg/02/71/77/56/360_F_271775672_yo8ZgraN2IHGbfqP2k0PsLjwvmatUNUJ.jpg"
+    image: img2,
   },
   {
     id: 3,
-    image: "https://t4.ftcdn.net/jpg/03/38/08/77/360_F_338087735_TA0hy2AlQajKsb0xphYh5ebhVxdxoi77.jpg"
-  }
+    image: img3,
+  },
 ];
 
 const Slider = () => {
@@ -28,10 +31,10 @@ const Slider = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-[80vh] overflow-hidden">
-      <div className="relative flex w-full h-full transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
+    <div className="relative w-full overflow-hidden">
+      <div className="relative flex w-full transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
         {slides.map((slide) => (
-          <div key={slide.id} className="w-full flex-shrink-0 h-full">
+          <div key={slide.id} className="w-full h-[70vh] sm:h-[70vh] md:h-[70vh] lg:h-[70vh] xl:h-[70vh] flex-shrink-0">
             <img src={slide.image} className="block w-full h-full object-cover" alt={`Slide ${slide.id}`} />
           </div>
         ))}

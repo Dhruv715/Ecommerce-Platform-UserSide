@@ -41,11 +41,71 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const handleMenuItemClick = () => {
+    setIsOpen(false); // Close the menu when a menu item is clicked
+  };
+
   return (
-    <nav className="bg-black text-white p-4 z-50 fixed top-0 left-0 right-0" style={{ fontFamily: 'poppins' }}>
+    <nav className="bg-black text-white p-4 z-50 fixed top-0 w-full" style={{ fontFamily: 'poppins' }}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <h1 className="font-bold text-3xl text-yellow-300 cursor-pointer">MintMart</h1>
+        </div>
+        <div className="hidden lg:flex items-center">
+          <Link
+            to="/"
+            className="ml-4 text-white hover:text-gray-200"
+            onClick={handleMenuItemClick}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className="ml-4 text-white hover:text-gray-200"
+            onClick={handleMenuItemClick}
+          >
+            About
+          </Link>
+          <Link
+            to="/product"
+            className="ml-4 text-white hover:text-gray-200"
+            onClick={handleMenuItemClick}
+          >
+            Products
+          </Link>
+          <Link
+            to="/cart"
+            className="ml-4 text-white hover:text-gray-200"
+            onClick={handleMenuItemClick}
+          >
+            Cart
+          </Link>
+          <Link
+            to="/order"
+            className="ml-4 text-white hover:text-gray-200"
+            onClick={handleMenuItemClick}
+          >
+            Orders
+          </Link>
+          {/* Login and Signup links in the first row on large screens */}
+          {!user && (
+            <>
+              <Link
+                to="/login"
+                className="ml-4 text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                onClick={handleMenuItemClick}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="ml-4 text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                onClick={handleMenuItemClick}
+              >
+                Signup
+              </Link>
+            </>
+          )}
         </div>
         <div className="lg:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
@@ -65,95 +125,89 @@ const Navbar = () => {
             </svg>
           </button>
         </div>
-        <div className={`hidden lg:flex flex-grow items-center justify-end ${isOpen ? 'flex' : 'hidden'}`}>
-          {user ? (
-            <>
-              <Link
-                to="/"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                About
-              </Link>
-              <Link
-                to="/product"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Products
-              </Link>
-              <Link
-                to="/cart"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Cart
-              </Link>
-              <Link
-                to="/order"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Orders
-              </Link>
-              <div className="flex items-center mt-4 lg:mt-0">
-                <img
-                  src={`https://ecommerce-platform-kfby.onrender.com/images/${user.profileImage}`} // Placeholder image
-                  alt="User"
-                  className="w-10 h-10 rounded-full mr-2"
-                />
-                <Link
-                  to="/profile"
-                  className="block lg:inline-block text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-                >
-                  {user.name}
-                </Link>
-                <button
-                  onClick={logout}
-                  className="block lg:inline-block text-white hover:text-gray-200 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-                >
-                  Logout
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-            <Link
-                to="/"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                About
-              </Link>
-              <Link
-                to="/product"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Products
-              </Link>
-              <Link
-                to="/login"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-200 mr-4 border-b-2 border-transparent hover:border-yellow-300 transition duration-300"
-              >
-                Signup
-              </Link>
-            </>
-          )}
-        </div>
       </div>
+
+      {/* Mobile Menu */}
+      <div className={`lg:hidden ${isOpen ? 'block' : 'hidden'}`}>
+        <Link
+          to="/"
+          className="block mt-4 text-white hover:text-gray-200"
+          onClick={handleMenuItemClick}
+        >
+          Home
+        </Link>
+        <Link
+          to="/about"
+          className="block mt-4 text-white hover:text-gray-200"
+          onClick={handleMenuItemClick}
+        >
+          About
+        </Link>
+        <Link
+          to="/product"
+          className="block mt-4 text-white hover:text-gray-200"
+          onClick={handleMenuItemClick}
+        >
+          Products
+        </Link>
+        <Link
+          to="/cart"
+          className="block mt-4 text-white hover:text-gray-200"
+          onClick={handleMenuItemClick}
+        >
+          Cart
+        </Link>
+        <Link
+          to="/order"
+          className="block mt-4 text-white hover:text-gray-200"
+          onClick={handleMenuItemClick}
+        >
+          Orders
+        </Link>
+        {/* Login and Signup links in the mobile menu */}
+        {!user && (
+          <>
+            <Link
+              to="/login"
+              className="block mt-4 text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              onClick={handleMenuItemClick}
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="block mt-4 text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              onClick={handleMenuItemClick}
+            >
+              Signup
+            </Link>
+          </>
+        )}
+      </div>
+
+      {/* Authenticated User Links */}
+      {user && (
+        <div className="flex items-center mt-4 lg:mt-0">
+          <img
+            src={`https://ecommerce-platform-kfby.onrender.com/images/${user.profileImage}`} // Placeholder image
+            alt="User"
+            className="w-10 h-10 rounded-full mr-2"
+          />
+          <Link
+            to="/profile"
+            className="text-white hover:text-gray-200 mr-4"
+            onClick={handleMenuItemClick}
+          >
+            {user.name}
+          </Link>
+          <button
+            onClick={logout}
+            className="text-white hover:text-gray-200"
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </nav>
   );
 };
