@@ -21,19 +21,17 @@ function Section2() {
     <div className="py-10 bg-gray-100">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8" style={{ fontFamily: 'Poppins' }}>Promotions</h2>
-        <div className="flex flex-wrap justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {promotions.map((promo, index) => (
-            <div key={index} className="w-full sm:w-1/2 lg:w-1/3 p-4">
-              <div className="bg-white shadow-lg  overflow-hidden transform transition duration-500 hover:scale-105">
-                <img src={promo.imgSrc} alt={promo.title} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold mb-2" style={{ fontFamily: 'Poppins' }}>{promo.title}</h3>
-                  <p className="text-gray-600 mb-4" style={{ fontFamily: 'Poppins' }}>{promo.description}</p>
-                  <div className="mb-4">
-                    <Countdown date={promo.endTime} />
-                  </div>
-                  <button className="bg-gray-900 text-white py-2 px-4  w-full transition duration-300 ease-in-out " style={{ fontFamily: 'Poppins' }}>Shop Now</button>
+            <div key={index} className="bg-white shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+              <img src={promo.imgSrc} alt={promo.title} className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold mb-2" style={{ fontFamily: 'Poppins' }}>{promo.title}</h3>
+                <p className="text-gray-600 mb-4" style={{ fontFamily: 'Poppins' }}>{promo.description}</p>
+                <div className="mb-4">
+                  <Countdown date={promo.endTime} />
                 </div>
+                <button className="bg-gray-900 text-white py-2 px-4 w-full transition duration-300 ease-in-out rounded-lg" style={{ fontFamily: 'Poppins' }}>Shop Now</button>
               </div>
             </div>
           ))}

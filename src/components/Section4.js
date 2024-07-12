@@ -1,5 +1,7 @@
-// src/components/Section4.js
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const testimonials = [
   {
@@ -52,40 +54,59 @@ const testimonials = [
   },
 ];
 
-function Section4() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === testimonials.length - 3 ? 0 : prevIndex + 1));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+const Section4 = () => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2, // Default number of slides to show on large devices
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <div className='py-10 bg-gray-100'>
       <div className='container mx-auto px-6'>
         <h2 className='text-3xl font-bold text-center mb-8' style={{ fontFamily: 'Poppins' }}>Customer Testimonials</h2>
-        <div className='relative overflow-hidden'>
-          <div className='flex transition-transform duration-500 ease-in-out' style={{ transform: `translateX(-${currentIndex * 100 / 3}%)` }}>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className='w-full sm:w-1/2 lg:w-1/3 xl:w-1/3 p-4 flex-shrink-0'>
-                <div className='bg-white shadow-lg rounded-lg p-6 h-full'>
-                  <img src={testimonial.photo} alt={testimonial.name} className='w-16 h-16 object-cover rounded-full mx-auto mb-4' />
-                  <h3 className='text-xl font-semibold text-center' style={{ fontFamily: 'Poppins' }}>{testimonial.name}</h3>
-                  <div className='flex justify-center mb-4'>
-                    {[...Array(testimonial.rating)].map((star, i) => (
-                      <svg key={i} className='w-5 h-5 text-yellow-500' fill='currentColor' viewBox='0 0 20 20'>
-                        <path d="M10 15l-5.88 3.1 1.12-6.5L0 6.9l6.56-.94L10 0l3.44 5.96L20 6.9l-5.24 4.7 1.12 6.5z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className='text-center text-gray-600 mb-4' style={{ fontFamily: 'Poppins' }}>{testimonial.review}</p>
+        <Slider {...settings}>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className='p-4'>
+              <div className='bg-white shadow-lg rounded-lg p-6'>
+                <img src={testimonial.photo} alt={testimonial.name} className='w-16 h-16 object-cover rounded-full mx-auto mb-4' />
+                <h3 className='text-xl font-semibold text-center' style={{ fontFamily: 'Poppins' }}>{testimonial.name}</h3>
+                <div className='flex justify-center mb-4'>
+                  {[...Array(testimonial.rating)].map((star, i) => (
+                    <svg key={i} className='w-5 h-5 text-yellow-500' fill='currentColor' viewBox='0 0 20 20'>
+                      <path d="M10 15l-5.88 3.1 1.12-6.5L0 6.9l6.56-.94L10 0l3.44 5.96L20 6.9l-5.24 4.7 1.12 6.5z" />
+                    </svg>
+                  ))}
                 </div>
+                <p className='text-center text-gray-600 mb-4' style={{ fontFamily: 'Poppins' }}>{testimonial.review}</p>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   );

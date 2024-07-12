@@ -13,7 +13,7 @@ function AboutUs() {
               <img 
                 src="https://fdopportunities.com/wp-content/uploads/2019/12/fdo-bsherman-480x480.jpg" 
                 alt="Dhruv Zanzmera" 
-                className="w-full h-auto rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:contrast-125"
+                className="w-full h-auto rounded-full shadow-lg transform transition duration-500 hover:scale-105 hover:contrast-125"
               />
             </div>
             <div className="w-full lg:w-2/3 p-4">

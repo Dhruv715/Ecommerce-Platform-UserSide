@@ -39,28 +39,28 @@ function Section3() {
 
   return (
     <div className='py-10 bg-gray-100'>
-      <div className='container mx-auto px-6'>
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <h2 className='text-3xl font-bold text-center mb-8' style={{ fontFamily: 'Poppins' }}>Our Products</h2>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
           {products.map((product, index) => (
             <div
               key={index}
               className='bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-xl cursor-pointer'
               onClick={() => handleProductClick(product._id)} // Assuming products have a unique _id
             >
-              <img src={`https://ecommerce-platform-kfby.onrender.com/images/${product.image[0]}`} alt={product.name} className='w-full h-64 object-contain' />
-              <div className='p-6'>
-                <h3 className='text-lg sm:text-xl font-semibold mb-2' style={{ fontFamily: 'Poppins', minHeight: '3rem', maxHeight: '6rem', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+              <img src={`https://ecommerce-platform-kfby.onrender.com/images/${product.image[0]}`} alt={product.name} className='w-full h-40 sm:h-48 object-contain' />
+              <div className='p-4 sm:p-6'>
+                <h3 className='text-sm sm:text-lg font-semibold mb-2' style={{ fontFamily: 'Poppins', minHeight: '3rem', maxHeight: '6rem', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                   {product.name.length > 50 ? `${product.name.substring(0, 50)}...` : product.name}
                 </h3>
                 <div className='flex items-center mb-4'>
-                  <span className='text-gray-600 mr-2' style={{ fontFamily: 'Poppins' }}>
-                    <h6 className='text-base sm:text-lg'>₹</h6>
-                    <h1 className='text-lg sm:text-2xl'>{product.price}</h1>
+                  <span className='text-gray-600 mr-2 flex items-baseline' style={{ fontFamily: 'Poppins' }}>
+                    <h6 className='text-sm sm:text-base'>₹</h6>
+                    <h1 className='text-lg sm:text-xl'>{product.price}</h1>
                   </span>
                   <span className='line-through text-red-500' style={{ fontFamily: 'Poppins' }}>{product.price + 500}</span>
                 </div>
-                <button className='bg-yellow-400 text-black py-2 px-4 rounded-full transition duration-300 ease-in-out hover:bg-yellow-500' style={{ fontFamily: 'Poppins', fontSize: '0.875rem' }}>
+                <button className='bg-yellow-400 text-black py-1 px-2 sm:py-2 sm:px-4 rounded-full transition duration-300 ease-in-out hover:bg-yellow-500' style={{ fontFamily: 'Poppins', fontSize: '0.75rem sm:0.875rem' }}>
                   Add to Cart <i className="ri-arrow-right-line"></i>
                 </button>
               </div>

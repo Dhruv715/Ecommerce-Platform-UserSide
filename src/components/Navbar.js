@@ -87,7 +87,6 @@ const Navbar = () => {
           >
             Orders
           </Link>
-          {/* Login and Signup links in the first row on large screens */}
           {!user && (
             <>
               <Link
@@ -106,6 +105,28 @@ const Navbar = () => {
               </Link>
             </>
           )}
+          {user && (
+        <div className="hidden lg:flex items-center mt-4 lg:mt-0">
+          <img
+            src={`https://ecommerce-platform-kfby.onrender.com/images/${user.profileImage}`} // Placeholder image
+            alt="User"
+            className="ml-4 w-10 h-10 rounded-full mr-2"
+          />
+          <Link
+            to="/profile"
+            className="text-white hover:text-gray-200 mr-4"
+            onClick={handleMenuItemClick}
+          >
+            {user.name}
+          </Link>
+          <button
+            onClick={logout}
+            className="text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            Logout
+          </button>
+        </div>
+      )}
         </div>
         <div className="lg:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
@@ -164,7 +185,6 @@ const Navbar = () => {
         >
           Orders
         </Link>
-        {/* Login and Signup links in the mobile menu */}
         {!user && (
           <>
             <Link
@@ -183,31 +203,34 @@ const Navbar = () => {
             </Link>
           </>
         )}
+        {user && (
+          <>
+            <Link
+              to="/profile"
+              className="block mt-4 text-white hover:text-gray-200"
+              onClick={handleMenuItemClick}
+            >
+              <div className="flex items-center">
+                <img
+                  src={`https://ecommerce-platform-kfby.onrender.com/images/${user.profileImage}`} // Placeholder image
+                  alt="User"
+                  className="w-10 h-10 rounded-full mr-2"
+                />
+                {user.name}
+              </div>
+            </Link>
+            <button
+              onClick={logout}
+              className="block mt-4 text-white hover:text-gray-200 bg-yellow-500 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
 
-      {/* Authenticated User Links */}
-      {user && (
-        <div className="flex items-center mt-4 lg:mt-0">
-          <img
-            src={`https://ecommerce-platform-kfby.onrender.com/images/${user.profileImage}`} // Placeholder image
-            alt="User"
-            className="w-10 h-10 rounded-full mr-2"
-          />
-          <Link
-            to="/profile"
-            className="text-white hover:text-gray-200 mr-4"
-            onClick={handleMenuItemClick}
-          >
-            {user.name}
-          </Link>
-          <button
-            onClick={logout}
-            className="text-white hover:text-gray-200"
-          >
-            Logout
-          </button>
-        </div>
-      )}
+   
+      
     </nav>
   );
 };
